@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # 或者您的主分支名称
+      - main  # 您的主分支名称
 
 jobs:
   build-and-deploy:
@@ -22,12 +22,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # 如果需要，添加执行权限（可选）
+      - name: Add execute permissions to vitepress
+        run: chmod +x ./node_modules/.bin/vitepress
+
       - name: Build project
-        run: npm run build
+        # 使用 npx 确保找到本地安装的 vitepress
+        run: npx vitepress build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: './dist'
-          cname: 'fgo.mihono.cn'
