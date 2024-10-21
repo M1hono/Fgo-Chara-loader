@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # 确保与项目的 Node.js 版本匹配
+          node-version: '18.17.1'  # 升级到 Node.js 18.17.1 版本
           cache: 'yarn'
 
       - name: Install dependencies
