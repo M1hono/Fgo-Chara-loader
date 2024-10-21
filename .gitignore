@@ -7,8 +7,8 @@ node_modules/
 # 忽略缓存目录
 .vitepress/cache/
 
-# 忽略构建输出目录
-dist/
+# 忽略构建输出目录（不忽略 .vitepress/dist/，因为我们需要部署它）
+# 如果您不希望将构建输出提交到仓库，则不需要修改
 
 # 忽略日志文件
 npm-debug.log*

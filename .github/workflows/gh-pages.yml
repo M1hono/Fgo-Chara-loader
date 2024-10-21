@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -25,8 +27,11 @@ jobs:
       - name: Build project
         run: yarn build
 
+      - name: Create CNAME file
+        run: echo 'fgo.mihono.cn' > ./.vitepress/dist/CNAME
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: './dist'
+          publish_dir: './.vitepress/dist'
