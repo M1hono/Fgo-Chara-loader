@@ -12,7 +12,7 @@
             :key="result.id"
             @click="selectCharacter(result)"
           >
-            {{ result.name }}
+            {{ result.name }} ({{ result.jpName }})
           </li>
         </ul>
       </div>
@@ -54,6 +54,7 @@
               <canvas ref="previewCanvas" width="200" height="200"></canvas>
             </div>
             <div class="action-controls">
+              <button @click="previewPreviousDiff">预览上一个差分</button>
               <button @click="previewNextDiff">预览下一个差分</button>
               <button @click="toggleColorPicker">选择背景颜色</button>
               <button @click="saveSelectedArea">保存选中区域</button>
@@ -73,6 +74,7 @@
   import axios from 'axios'
   import JSZip from 'jszip'
   import translations from '../../../../src/translations.json'
+  import noTranslations from '../../../../src/no_translation.json'
   import { Chrome } from '@ckpack/vue-color'
   import ColorThief from 'colorthief'
   
@@ -136,7 +138,7 @@
   
   const fetchCharacterData = async () => {
     try {
-      const response = await axios.get('https://api.atlasacademy.io/export/NA/nice_servant.json')
+      const response = await axios.get('https://api.atlasacademy.io/export/JP/nice_servant.json')
       characterData.value = response.data
     } catch (error) {
       console.error('Error fetching character data:', error)
@@ -151,13 +153,14 @@
     const query = searchQuery.value.toLowerCase()
     searchResults.value = characterData.value
       .filter(char => {
-        const cnName = translations[char.name] || char.name
+        const cnName = translations[char.name] || noTranslations[char.name] || char.name
         return cnName.toLowerCase().includes(query) || char.name.toLowerCase().includes(query)
       })
       .slice(0, 10)
       .map(char => ({
         id: char.id,
-        name: translations[char.name] || char.name
+        name: translations[char.name] || noTranslations[char.name] || char.name,
+        jpName: char.name
       }))
   }
   
@@ -258,10 +261,18 @@
     }
   }
   
+  const previewPreviousDiff = () => {
+    if (diffImages.value.length === 0) return;
+    currentDiffIndex.value = (currentDiffIndex.value - 1 + diffImages.value.length) % diffImages.value.length;
+    drawImage();
+    updatePreview();
+  }
+  
   const previewNextDiff = () => {
-    currentDiffIndex.value = (currentDiffIndex.value + 1) % diffImages.value.length
-    drawImage()
-    updatePreview()
+    if (diffImages.value.length === 0) return;
+    currentDiffIndex.value = (currentDiffIndex.value + 1) % diffImages.value.length;
+    drawImage();
+    updatePreview();
   }
   
   const startSelection = (event: MouseEvent) => {
@@ -571,6 +582,9 @@
   }
   </style>
   
+
+
+
 
 
 
