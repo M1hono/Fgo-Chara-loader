@@ -59,7 +59,9 @@
               <button @click="saveSelectedArea">保存选中区域</button>
               <button @click="batchProcess">批量处理</button>
             </div>
-            <Chrome v-if="showColorPicker" v-model="backgroundColor" @update:modelValue="updateBackgroundColor" />
+            <div class="color-picker-container">
+              <Chrome v-if="showColorPicker" v-model="backgroundColor" @update:modelValue="updateBackgroundColor" :disableAlpha="false" />
+            </div>
           </div>
         </div>
       </div>
@@ -70,7 +72,7 @@
   import { ref, onMounted, watch, computed } from 'vue'
   import axios from 'axios'
   import JSZip from 'jszip'
-  import nameMapping from '../../../../nameMapping.json'
+  import translations from '../../../../src/translations.json'
   import { Chrome } from '@ckpack/vue-color'
   import ColorThief from 'colorthief'
   
@@ -94,7 +96,12 @@
   const selectionStart = ref({ x: 0, y: 0 })
   const selectionEnd = ref({ x: 0, y: 0 })
   const isSelecting = ref(false)
-  const backgroundColor = ref({ hex: '#FFFFFF' })
+  const backgroundColor = ref({
+    r: 255,
+    g: 255,
+    b: 255,
+    a: 1
+  })
   const showColorPicker = ref(false)
   const allCharacterImages = ref<Record<string, string>>({})
   const mainColor = ref({ r: 255, g: 255, b: 255 })
@@ -144,13 +151,13 @@
     const query = searchQuery.value.toLowerCase()
     searchResults.value = characterData.value
       .filter(char => {
-        const cnName = nameMapping[char.name] || char.name
+        const cnName = translations[char.name] || char.name
         return cnName.toLowerCase().includes(query) || char.name.toLowerCase().includes(query)
       })
       .slice(0, 10)
       .map(char => ({
         id: char.id,
-        name: nameMapping[char.name] || char.name
+        name: translations[char.name] || char.name
       }))
   }
   
@@ -350,19 +357,23 @@
 
     // 清空并绘制预览
     context.clearRect(0, 0, previewCanvas.value.width, previewCanvas.value.height)
-    context.fillStyle = backgroundColor.value.hex
+    const { r, g, b, a } = backgroundColor.value
+    context.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
     context.fillRect(0, 0, previewCanvas.value.width, previewCanvas.value.height)
-    context.drawImage(
-      canvas.value,
-      sourceX,
-      sourceY,
-      sourceWidth,
-      sourceHeight,
-      0,
-      0,
-      previewCanvas.value.width,
-      previewCanvas.value.height
-    )
+    
+    if (canvas.value) {
+      context.drawImage(
+        canvas.value,
+        sourceX,
+        sourceY,
+        sourceWidth,
+        sourceHeight,
+        0,
+        0,
+        previewCanvas.value.width,
+        previewCanvas.value.height
+      )
+    }
   }
   
   const toggleColorPicker = () => {
@@ -370,7 +381,7 @@
   }
   
   const updateBackgroundColor = (color: any) => {
-    backgroundColor.value = color
+    backgroundColor.value = color.rgba
     updatePreview()
   }
   
@@ -390,7 +401,8 @@
     const tempCtx = tempCanvas.getContext('2d')!
 
     // 填充背景色并绘制选区内容
-    tempCtx.fillStyle = backgroundColor.value.hex
+    const { r, g, b, a } = backgroundColor.value
+    tempCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
     tempCtx.drawImage(
       canvas.value,
@@ -429,7 +441,8 @@
       const tempCtx = tempCanvas.getContext('2d')!
 
       // 填充背景色并绘制选区内容
-      tempCtx.fillStyle = backgroundColor.value.hex
+      const { r, g, b, a } = backgroundColor.value
+      tempCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
       tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height)
       tempCtx.drawImage(
         diffImages.value[i],
@@ -553,11 +566,14 @@
     white-space: nowrap; /* 防止按钮文字换行 */
   }
   
-  .chrome-picker {
+  .color-picker-container {
     margin-top: 1rem;
   }
   </style>
   
+
+
+
 
 
 

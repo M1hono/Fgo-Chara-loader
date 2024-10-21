@@ -22,8 +22,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # 构建任务
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,22 +39,25 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile  # 如果使用 npm，则使用 'npm ci'
 
-      - name: Build with VitePress
-        run: yarn build  # 如果您的构建命令不同，请修改
+      - name: Generate translations
+        run: npm run generate-translations
+
+      - name: Build project
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1  # 请注意，这里是 @v1 版本
         with:
           path: .vitepress/dist  # 构建输出目录
 
-  # 部署任务
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1  # 请注意，这里是 @v1 版本
+      # 部署任务
+      deploy:
+        runs-on: ubuntu-latest
+        needs: build-and-deploy
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+          - name: Deploy to GitHub Pages
+            id: deployment
+            uses: actions/deploy-pages@v1  # 请注意，这里是 @v1 版本
