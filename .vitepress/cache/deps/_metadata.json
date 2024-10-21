@@ -1,0 +1,58 @@
+{
+  "hash": "3ccde927",
+  "configHash": "f686c219",
+  "lockfileHash": "26975ea5",
+  "browserHash": "70b85dc2",
+  "optimized": {
+    "vue": {
+      "src": "../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "184a6a12",
+      "needsInterop": false
+    },
+    "vitepress > @vue/devtools-api": {
+      "src": "../../../node_modules/@vue/devtools-api/dist/index.js",
+      "file": "vitepress___@vue_devtools-api.js",
+      "fileHash": "8bdcfbda",
+      "needsInterop": false
+    },
+    "vitepress > @vueuse/core": {
+      "src": "../../../node_modules/@vueuse/core/index.mjs",
+      "file": "vitepress___@vueuse_core.js",
+      "fileHash": "58958549",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "ac3be3ac",
+      "needsInterop": true
+    },
+    "jszip": {
+      "src": "../../../node_modules/jszip/dist/jszip.min.js",
+      "file": "jszip.js",
+      "fileHash": "f1333024",
+      "needsInterop": true
+    },
+    "@ckpack/vue-color": {
+      "src": "../../../node_modules/@ckpack/vue-color/libs/index.js",
+      "file": "@ckpack_vue-color.js",
+      "fileHash": "de09a7fe",
+      "needsInterop": false
+    },
+    "colorthief": {
+      "src": "../../../node_modules/colorthief/dist/color-thief.mjs",
+      "file": "colorthief.js",
+      "fileHash": "8ab1957d",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-XYSSNQS4": {
+      "file": "chunk-XYSSNQS4.js"
+    },
+    "chunk-VUNV25KB": {
+      "file": "chunk-VUNV25KB.js"
+    }
+  }
+}
