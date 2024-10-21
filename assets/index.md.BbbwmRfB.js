@@ -1,0 +1,1 @@
+import{_ as t,c as o,G as n,B as a,o as r}from"./chunks/framework.CWN7JHKt.js";const x=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),s={name:"index.md"};function c(d,i,p,_,m,l){const e=a("Fgo");return r(),o("div",null,[n(e)])}const u=t(s,[["render",c]]);export{x as __pageData,u as default};
