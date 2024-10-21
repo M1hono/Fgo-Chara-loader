@@ -25,9 +25,6 @@ jobs:
       - name: Build project
         run: yarn build
 
-      - name: Create CNAME file
-        run: echo 'fgo.mihono.cn' > ./dist/CNAME
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
