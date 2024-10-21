@@ -2,7 +2,7 @@
 node_modules/
 
 # 忽略缓存目录
-.vitepress/caches/
+.vitepress/cache/
 
 # 忽略构建输出目录
 dist/
