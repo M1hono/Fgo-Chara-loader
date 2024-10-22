@@ -69,7 +69,7 @@
                     </div>
                   </template>
                   <el-radio-group v-model="currentAspectRatio" @change="setAspectRatio" size="small" class="full-width">
-                    <el-radio-button v-for="ratio in aspectRatios" :key="ratio" :label="ratio">
+                    <el-radio-button v-for="ratio in aspectRatios" :key="ratio" :value="ratio">
                       {{ ratio }}
                     </el-radio-button>
                   </el-radio-group>
@@ -224,7 +224,7 @@ const backgroundColor = ref({
 const showColorPicker = ref(false)
 const allCharacterImages = ref<Record<string, string>>({})
 const mainColor = ref({ r: 255, g: 255, b: 255 })
-const aspectRatios = ['custom', '1:1', '4:3', '16:9']
+const aspectRatios = ['custom', '1:1', '4:3', '16:9', '3:2', '5:4', '21:9']
 const currentAspectRatio = ref('custom')
 const faceDetected = ref(false)
 const currentImageKey = ref('')
@@ -476,9 +476,13 @@ const updateSelection = (event: MouseEvent | TouchEvent) => {
   
   selectionEnd.value = { x: newX, y: newY }
   
-  drawImage()
-  updatePreview()
-  updateManualSelectionFromCanvas()
+  if (currentAspectRatio.value !== 'custom') {
+    applyAspectRatio()
+  } else {
+    drawImage()
+    updatePreview()
+    updateManualSelectionFromCanvas()
+  }
 }
 
 const endSelection = () => {
@@ -636,16 +640,32 @@ const batchProcess = async () => {
 
 const setAspectRatio = (ratio: string) => {
   currentAspectRatio.value = ratio
-  // 仅当比例不是 'custom' 且正在选择时，调整选区
-  if (ratio !== 'custom' && isSelecting.value) {
-    const [width, height] = ratio.split(':').map(Number)
-    const aspectRatio = width / height
-    const currentWidth = selectionEnd.value.x - selectionStart.value.x
-    const adjustedHeight = currentWidth / aspectRatio
-    selectionEnd.value.y = selectionStart.value.y + adjustedHeight
-    drawImage()
-    updatePreview()
+  if (ratio !== 'custom') {
+    applyAspectRatio()
   }
+}
+
+const applyAspectRatio = () => {
+  if (currentAspectRatio.value === 'custom') return
+
+  const [width, height] = currentAspectRatio.value.split(':').map(Number)
+  const aspectRatio = width / height
+  const currentWidth = Math.abs(selectionEnd.value.x - selectionStart.value.x)
+  const currentHeight = Math.abs(selectionEnd.value.y - selectionStart.value.y)
+
+  if (currentWidth / currentHeight > aspectRatio) {
+    // 调整宽度
+    const newWidth = currentHeight * aspectRatio
+    selectionEnd.value.x = selectionStart.value.x + (selectionEnd.value.x > selectionStart.value.x ? newWidth : -newWidth)
+  } else {
+    // 调整高度
+    const newHeight = currentWidth / aspectRatio
+    selectionEnd.value.y = selectionStart.value.y + (selectionEnd.value.y > selectionStart.value.y ? newHeight : -newHeight)
+  }
+
+  drawImage()
+  updatePreview()
+  updateManualSelectionFromCanvas()
 }
 
 const initFaceDetector = async () => {
@@ -702,8 +722,12 @@ const updateManualSelection = () => {
     x: manualSelection.value.x + manualSelection.value.width,
     y: manualSelection.value.y + manualSelection.value.height
   }
-  drawImage()
-  updatePreview()
+  if (currentAspectRatio.value !== 'custom') {
+    applyAspectRatio()
+  } else {
+    drawImage()
+    updatePreview()
+  }
 }
 
 // 添加 updateManualSelectionFromCanvas 函数
@@ -729,8 +753,9 @@ watch([selectedCharacter, currentImage], () => {
   padding: 1rem;
   font-family: 'Arial', sans-serif;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background 0.5s ease;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .search-section {
@@ -750,7 +775,7 @@ watch([selectedCharacter, currentImage], () => {
 .canvas-container {
   flex: 1;
   min-width: 300px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: white;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -807,5 +832,10 @@ canvas {
   .controls-and-preview {
     flex: 1;
   }
+
+  .search-section {
+    margin-bottom: 1rem;
+  }
 }
 </style>
+

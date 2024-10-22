@@ -9,7 +9,7 @@
       <Content />
     </main>
     <footer class="footer">
-      <p>&copy; 2023 FGO Character Viewer</p>
+      <p>&copy; 2024 FGO Character Viewer</p>
     </footer>
   </div>
 </template>
@@ -32,7 +32,7 @@ import { Content } from 'vitepress/client'
 }
 
 .navbar-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -46,7 +46,7 @@ import { Content } from 'vitepress/client'
 .content {
   flex: 1;
   padding: 2rem;
-  max-width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
@@ -62,5 +62,21 @@ import { Content } from 'vitepress/client'
 .content > div {
   max-width: 100%;
   overflow-x: hidden;
+}
+
+@media (max-width: 1440px) {
+  .content {
+    padding: 1rem;
+  }
+}
+
+/* 移除一些可能导致问题的样式 */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  min-height: 100vh;
 }
 </style>
