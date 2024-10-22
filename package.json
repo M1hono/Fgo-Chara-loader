@@ -16,6 +16,7 @@
     "axios": "^0.21.4",
     "color-thief-ts": "^1.1.1",
     "colorthief": "^2.6.0",
+    "element-plus": "^2.8.6",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "vue": "^3.2.37",

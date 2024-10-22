@@ -1,58 +1,79 @@
 {
-  "hash": "3ccde927",
+  "hash": "338194cf",
   "configHash": "f686c219",
-  "lockfileHash": "26975ea5",
-  "browserHash": "70b85dc2",
+  "lockfileHash": "fdb69a51",
+  "browserHash": "8da8aff0",
   "optimized": {
     "vue": {
       "src": "../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "184a6a12",
+      "fileHash": "cae6c90d",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "8bdcfbda",
+      "fileHash": "d87301dc",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "58958549",
+      "fileHash": "e08bdbeb",
       "needsInterop": false
     },
     "axios": {
       "src": "../../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "ac3be3ac",
+      "fileHash": "0162c462",
       "needsInterop": true
     },
     "jszip": {
       "src": "../../../node_modules/jszip/dist/jszip.min.js",
       "file": "jszip.js",
-      "fileHash": "f1333024",
+      "fileHash": "2c0f35d7",
       "needsInterop": true
     },
     "@ckpack/vue-color": {
       "src": "../../../node_modules/@ckpack/vue-color/libs/index.js",
       "file": "@ckpack_vue-color.js",
-      "fileHash": "de09a7fe",
+      "fileHash": "85ee378e",
       "needsInterop": false
     },
     "colorthief": {
       "src": "../../../node_modules/colorthief/dist/color-thief.mjs",
       "file": "colorthief.js",
-      "fileHash": "8ab1957d",
+      "fileHash": "15489bfc",
+      "needsInterop": false
+    },
+    "element-plus": {
+      "src": "../../../node_modules/element-plus/es/index.mjs",
+      "file": "element-plus.js",
+      "fileHash": "56b1392d",
+      "needsInterop": false
+    },
+    "@element-plus/icons-vue": {
+      "src": "../../../node_modules/@element-plus/icons-vue/dist/index.js",
+      "file": "@element-plus_icons-vue.js",
+      "fileHash": "ef24caae",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-XYSSNQS4": {
-      "file": "chunk-XYSSNQS4.js"
+    "chunk-Z5MM7V3J": {
+      "file": "chunk-Z5MM7V3J.js"
     },
-    "chunk-VUNV25KB": {
-      "file": "chunk-VUNV25KB.js"
+    "chunk-L5BCK2LB": {
+      "file": "chunk-L5BCK2LB.js"
+    },
+    "chunk-K7JHSHH3": {
+      "file": "chunk-K7JHSHH3.js"
+    },
+    "chunk-NKN4ALJC": {
+      "file": "chunk-NKN4ALJC.js"
+    },
+    "chunk-7D4SUZUM": {
+      "file": "chunk-7D4SUZUM.js"
     }
   }
 }
